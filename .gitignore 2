@@ -1,0 +1,16 @@
+# Build output
+target/
+
+# SQLite database — Railway uses a volume, never commit the DB
+*.db
+*.db-shm
+*.db-wal
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Uploads
+uploads/
