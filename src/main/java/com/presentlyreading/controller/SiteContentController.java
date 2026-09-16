@@ -52,4 +52,11 @@ public class SiteContentController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    /** PUT /api/content/bulk — update multiple values (admin only) */
+    @PutMapping("/bulk")
+    public ResponseEntity<Void> updateBulk(@RequestBody Map<String, String> body) {
+        service.updateBulk(body);
+        return ResponseEntity.ok().build();
+    }
 }

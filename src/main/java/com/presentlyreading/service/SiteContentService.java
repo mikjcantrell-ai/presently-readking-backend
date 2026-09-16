@@ -33,6 +33,16 @@ public class SiteContentService {
         return repo.save(item);
     }
 
+    /** Update multiple content entries in bulk */
+    public void updateBulk(Map<String, String> updates) {
+        updates.forEach((key, value) -> {
+            repo.findById(key).ifPresent(item -> {
+                item.setValue(value);
+                repo.save(item);
+            });
+        });
+    }
+
     /** Seed default content if not present (called by DataSeeder) */
     public void seedIfEmpty(List<SiteContent> defaults) {
         for (SiteContent item : defaults) {
