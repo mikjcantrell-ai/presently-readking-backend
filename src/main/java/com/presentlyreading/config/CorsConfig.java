@@ -21,7 +21,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOriginPatterns("http://localhost:*", "https://presentlyreading.com", "https://www.presentlyreading.com", "https://*.pages.dev", "https://*.workers.dev")
+                        .allowedOriginPatterns("http://localhost:*", "https://presentlyreading.com", "https://www.presentlyreading.com", "https://presentlyreading.net", "https://www.presentlyreading.net", "https://*.pages.dev", "https://*.workers.dev")
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                         .allowedHeaders("Content-Type", "Authorization", "Accept",
                                         "X-Requested-With", "Cache-Control")
