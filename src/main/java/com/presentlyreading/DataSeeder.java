@@ -6,11 +6,15 @@ import com.presentlyreading.model.Book;
 import com.presentlyreading.model.SiteContent;
 import com.presentlyreading.repository.QuoteRepository;
 import com.presentlyreading.repository.BookRepository;
+import com.presentlyreading.repository.AdminUserRepository;
+import com.presentlyreading.model.AdminUser;
 import com.presentlyreading.service.AuthorProfileService;
 import com.presentlyreading.service.SiteContentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
@@ -23,9 +27,18 @@ public class DataSeeder implements CommandLineRunner {
     private final QuoteRepository quoteRepository;
     private final SiteContentService siteContentService;
     private final AuthorProfileService authorProfileService;
+    private final AdminUserRepository adminUserRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Value("${spring.security.user.name:admin}")
+    private String defaultAdminUsername;
+
+    @Value("${spring.security.user.password:T@ylor55}")
+    private String defaultAdminPassword;
 
     @Override
     public void run(String... args) {
+        seedAdminUser();
         seedSiteContent();
         seedAuthorProfile();
         if (bookRepository.count() > 0) {
@@ -68,6 +81,16 @@ public class DataSeeder implements CommandLineRunner {
         book.setDisplayOrder(displayOrder);
         book.setDescription(description);
         return bookRepository.save(book);
+    }
+
+    private void seedAdminUser() {
+        if (adminUserRepository.count() == 0) {
+            AdminUser user = new AdminUser();
+            user.setUsername(defaultAdminUsername);
+            user.setPassword(passwordEncoder.encode(defaultAdminPassword));
+            adminUserRepository.save(user);
+            log.info("DataSeeder: Seeded default admin user.");
+        }
     }
 
     private int seedQuote(Book book, String label, Quote.SectionType type, int order, String content) {
