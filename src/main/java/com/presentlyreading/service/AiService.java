@@ -87,7 +87,7 @@ public class AiService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "<p><em>Error generating review. Please check the backend logs.</em></p>";
+            return "<p><em>Error generating review: " + e.getMessage() + ". Please check the backend logs.</em></p>";
         }
 
         return "<p><em>Failed to generate review.</em></p>";
