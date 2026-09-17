@@ -18,7 +18,7 @@ public class AiService {
     private String geminiApiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=";
+    private static final String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=";
 
     public String generateReview(String title, String author, String genre, String existingReview) {
         if (geminiApiKey == null || geminiApiKey.trim().isEmpty()) {
