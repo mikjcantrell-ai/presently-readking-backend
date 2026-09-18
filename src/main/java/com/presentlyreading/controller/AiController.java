@@ -22,8 +22,9 @@ public class AiController {
         String author = request.getOrDefault("author", "Unknown Author");
         String genre = request.getOrDefault("genre", "General Fiction");
         String existingReview = request.get("existingReview");
+        String action = request.getOrDefault("action", "scratch");
 
-        String generatedHtml = aiService.generateReview(title, author, genre, existingReview);
+        String generatedHtml = aiService.generateReview(title, author, genre, existingReview, action);
 
         return ResponseEntity.ok(Map.of("generatedReview", generatedHtml));
     }

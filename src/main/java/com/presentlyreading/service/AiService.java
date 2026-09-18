@@ -20,13 +20,13 @@ public class AiService {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=";
 
-    public String generateReview(String title, String author, String genre, String existingReview) {
+    public String generateReview(String title, String author, String genre, String existingReview, String action) {
         if (geminiApiKey == null || geminiApiKey.trim().isEmpty()) {
             return "<p><em>AI integration is not configured. Please set the GEMINI_API_KEY environment variable.</em></p>";
         }
 
         String prompt;
-        if (existingReview != null && !existingReview.trim().isEmpty()) {
+        if ("polish".equals(action)) {
             prompt = String.format(
                 "Please polish, improve, and format the following draft book review for the book '%s' by %s (Genre: %s). " +
                 "Make it sound professional, engaging, and written from a first-person perspective. " +
@@ -35,7 +35,17 @@ public class AiService {
                 "Draft Review to Polish:\n%s",
                 title, author, genre, existingReview
             );
+        } else if ("expand".equals(action)) {
+            prompt = String.format(
+                "Write a full, beautifully formatted book review for '%s' by %s (Genre: %s) based on the following notes. " +
+                "Flesh out the bullet points or rough notes into 2-3 paragraphs, written from a personal, engaging first-person perspective. " +
+                "Format the review using basic HTML tags (like <p>, <h3>, <blockquote>) so it looks good on a blog. " +
+                "Do not include markdown code block syntax (like ```html), just return the raw HTML string.\n\n" +
+                "Notes to Expand:\n%s",
+                title, author, genre, existingReview
+            );
         } else {
+            // "scratch" or default
             prompt = String.format(
                 "Write a short, beautifully formatted book review for '%s' by %s. " +
                 "The genre is %s. " +
